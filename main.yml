@@ -1,0 +1,5 @@
+- name: Configure NANO servers
+  hosts: nanoservers
+
+  roles:
+    - web

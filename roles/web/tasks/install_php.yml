@@ -1,0 +1,9 @@
+---
+- name: Install PHP
+  yum:
+    name:
+      - php
+      - php-curl
+      - php-fpm
+    state: present
+  notify: restart nginx

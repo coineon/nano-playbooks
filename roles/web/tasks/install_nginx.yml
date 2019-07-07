@@ -1,0 +1,15 @@
+---
+- name: Disable httpd
+  service: name=httpd state=stopped enabled=no
+
+- name: Install nginx
+  yum: name=nginx state=present
+
+- name: Insert iptables rule for httpd
+  lineinfile: dest=/etc/sysconfig/iptables create=yes state=present regexp="{{ HTTP_PORT }}" insertafter="^:OUTPUT "
+    line="-A INPUT -p tcp  --dport {{ HTTP_PORT }} -j  ACCEPT"
+  notify: restart iptables
+
+- name: Configure NGINX
+  template: src=nginx.conf.j2 dest=/etc/nginx/nginx.conf
+  notify: restart nginx

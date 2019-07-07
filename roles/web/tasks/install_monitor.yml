@@ -1,0 +1,12 @@
+---
+# These tasks are responsible for copying the latest dev/production code from
+# the version control system.
+
+- name: Install git
+  yum: name=git state=present
+
+- name: Copy the code from repository
+  git: repo={{ REPO }} dest=/usr/share/nginx/html/node/
+
+- name: Configure monitor
+  template: src=config.php.j2 dest=/usr/share/nginx/html/node/modules/config.php
